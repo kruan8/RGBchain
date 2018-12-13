@@ -9,12 +9,14 @@ uint32_t g_nLeds;
 void Eff_EffectsLoop()
 {
   g_nLeds = RGBlib_GetLedsCount();
+  RGBlib_Clear();
 
-//  while (1)
-//  {
+  while (1)
+  {
+    Eff_ColorWithFade(RGBlib_GetRandomColor(), 10000);
+//    Eff_RandomColorSequentialFade(10000);
 
-//
-//  }
+  }
 
   uint32_t rnd = RGBlib_Rand(1, 5);
   switch (rnd)
@@ -29,6 +31,7 @@ void Eff_EffectsLoop()
   }
 
   RGBlib_Clear();
+  RGBlib_Delay_ms(1000);
 }
 
 /**
@@ -43,11 +46,11 @@ void Eff_ColorWithFade(RGB_colors_e eColor, uint32_t nDuration_ms)
   for (uint8_t nBrightness = 0; nBrightness <= RGBlib_GetBrightnessMax(); nBrightness++)
   {
     RGBlib_SetBrightness(nBrightness);
-    RGBlib_Delay_ms(100);
+    RGBlib_Delay_ms(110);
   }
 
   RGBlib_Delay_ms(nDuration_ms);
-  RGBlib_FadeOut(1000);
+  RGBlib_FadeOut(1300);
 }
 
 /**
@@ -68,7 +71,7 @@ void Eff_RandomColorSequentialFade(uint32_t nDuration_ms)
   }
 
   RGBlib_Delay_ms(nDuration_ms);
-  RGBlib_FadeOut(1000);
+  RGBlib_FadeOut(1500);
 }
 
 void Eff_Rainbow(uint32_t nDuration_ms)
@@ -88,6 +91,7 @@ void Eff_Rainbow(uint32_t nDuration_ms)
     RGBlib_Show();
     RGBlib_Delay_ms(10);
   }
+
 }
 
 void Eff_Stars(RGB_colors_e color, uint32_t nDuration_ms)
