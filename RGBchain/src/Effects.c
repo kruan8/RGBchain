@@ -61,10 +61,18 @@ void Eff_RandomColorSequentialFade(uint32_t nDuration_ms)
 {
   for (uint8_t i = 0; i < g_nLeds; i++)
   {
+    // search black (free) position
+    uint32_t nPos = RGBlib_Rand(0, g_nLeds - 1);
+    while (RGBlib_GetColor(nPos) != c_black)
+    {
+      nPos++;
+      nPos %= g_nLeds;
+    }
+
     RGB_colors_e eColor = RGBlib_GetRandomColor();
     for (uint8_t b = 0; b < RGBlib_GetBrightnessMax() - 1; b++)
     {
-      RGBlib_SetLEDWithBrightnessGamma(i, eColor, b);
+      RGBlib_SetLEDWithBrightnessGamma(nPos, eColor, b);
       RGBlib_Show();
       RGBlib_Delay_ms(1000 / RGBlib_GetBrightnessMax());
     }
