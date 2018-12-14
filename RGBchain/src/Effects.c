@@ -90,12 +90,12 @@ void Eff_Rainbow(uint32_t nDuration_ms)
   RGB_colors_e c = 0;
   while (RGBlib_GetTicks() < nEndTime)
   {
+    c += 1;
     for (uint16_t i = 0; i < g_nLeds; i++)
     {
       RGBlib_SetLED(i, c);
     }
 
-    c += 1;
     RGBlib_Show();
     RGBlib_Delay_ms(10);
   }
@@ -231,7 +231,6 @@ void  Eff_Candle_1(RGB_colors_e eColor, uint32_t nDuration_ms)
 
 void Eff_Test()
 {
-	RGBlib_Delay_ms(1000);
 	RGBlib_SetColorAll(c_red, 1000);
 	RGBlib_SetColorAll(c_green, 1000);
 	RGBlib_SetColorAll(c_blue, 1000);
