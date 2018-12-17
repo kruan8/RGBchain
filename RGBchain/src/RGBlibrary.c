@@ -14,6 +14,7 @@
 #define BUFF_SIZE (LEDS * 3)
 
 RGB_colors_e colors[] = { c_red, c_green, c_blue, c_white_dark, c_violet, c_yellow };  // pouzita paleta barev
+uint8_t g_nColorIndex = 0;
 
 uint8_t g_arrRGBbuff[BUFF_SIZE];
 
@@ -273,6 +274,17 @@ RGB_colors_e RGBlib_GetRandomColor()
 {
 	uint8_t c = RGBlib_Rand(1, sizeof(colors) / sizeof (RGB_colors_e));
 	return colors[--c];
+}
+
+RGB_colors_e RGBlib_GetNextColor()
+{
+  g_nColorIndex++;
+  if (g_nColorIndex >= sizeof(colors) / sizeof (RGB_colors_e))
+  {
+    g_nColorIndex = 0;
+  }
+
+  return colors[g_nColorIndex];
 }
 
 void RGBlib_Delay_ms(uint32_t delay_ms)

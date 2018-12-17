@@ -22,7 +22,7 @@ void Eff_EffectsLoop()
   switch (rnd)
   {
     case  1: Eff_ColorWithFade(RGBlib_GetRandomColor(), EFF_DURATION_5MIN); break;
-    case  2: Eff_RandomColorSequentialFade(EFF_DURATION_3MIN); break;
+    case  2: Eff_SequentialColorFade(EFF_DURATION_3MIN); break;
     case  3: Eff_Stars(RGBlib_GetRandomColor(), EFF_DURATION_1MIN); break;
     case  4: Eff_Candle_1(c_yellow, EFF_DURATION_5MIN); break;
     case  5: Eff_Rainbow(EFF_DURATION_1MIN);
@@ -57,7 +57,7 @@ void Eff_ColorWithFade(RGB_colors_e eColor, uint32_t nDuration_ms)
  * sequential fade in random colors, fade out
  * @param nDuration_ms: stable color duration
  */
-void Eff_RandomColorSequentialFade(uint32_t nDuration_ms)
+void Eff_SequentialColorFade(uint32_t nDuration_ms)
 {
   for (uint8_t i = 0; i < g_nLeds; i++)
   {
@@ -69,10 +69,9 @@ void Eff_RandomColorSequentialFade(uint32_t nDuration_ms)
       nPos %= g_nLeds;
     }
 
-    RGB_colors_e eColor = RGBlib_GetRandomColor();
     for (uint8_t b = 0; b < RGBlib_GetBrightnessMax() - 1; b++)
     {
-      RGBlib_SetLEDWithBrightnessGamma(nPos, eColor, b);
+      RGBlib_SetLEDWithBrightnessGamma(nPos, RGBlib_GetNextColor(), b);
       RGBlib_Show();
       RGBlib_Delay_ms(1000 / RGBlib_GetBrightnessMax());
     }

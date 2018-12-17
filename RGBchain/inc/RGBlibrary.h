@@ -13,11 +13,11 @@
 
 typedef enum
 {
+  c_black      = 0x000000,
   c_red        = 0xFF0000,
   c_green      = 0x00FF00,
   c_blue       = 0x0000FF,
   c_yellow     = 0x707000,
-  c_black      = 0x000000,
   c_white      = 0xFFFFFF,
   c_white_dark = 0x505050,
   c_violet     = 0x6400FF,
@@ -63,6 +63,7 @@ void RGBlib_Delay_ms(uint32_t delay_ms);
 uint32_t RGBlib_GetTicks(void);
 uint32_t RGBlib_GetRandomNumber();
 RGB_colors_e RGBlib_GetRandomColor();
+RGB_colors_e RGBlib_GetNextColor();
 bool RGBlib_IsDark(void);
 
 #endif /* RGBLIBRARY_H_ */
