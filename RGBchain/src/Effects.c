@@ -81,18 +81,23 @@ void Eff_SequentialColorFade(uint32_t nDuration_ms)
   RGBlib_FadeOut(1500);
 }
 
+/**
+ * All LEDs changed by rainbow color
+ * @param nDuration_ms: effect duration
+ */
 void Eff_Rainbow(uint32_t nDuration_ms)
 {
   RGBlib_Clear();
 
   uint32_t nEndTime = RGBlib_GetTicks() + nDuration_ms;
-  RGB_colors_e c = 0;
+  uint32_t nColor = 0;
   while (RGBlib_GetTicks() < nEndTime)
   {
-    c += 1;
+    nColor++;
+    nColor &= RGB_COLOR_MASK;
     for (uint16_t i = 0; i < g_nLeds; i++)
     {
-      RGBlib_SetLED(i, c);
+      RGBlib_SetLED(i, RGBlib_Wheel(nColor));
     }
 
     RGBlib_Show();
@@ -101,6 +106,11 @@ void Eff_Rainbow(uint32_t nDuration_ms)
 
 }
 
+/**
+ * random fade on/fade in
+ * @param color: stars color
+ * @param nDuration_ms: effect duration
+ */
 void Eff_Stars(RGB_colors_e color, uint32_t nDuration_ms)
 {
   uint8_t arrBrightness[g_nLeds];
@@ -161,7 +171,7 @@ void Eff_Stars(RGB_colors_e color, uint32_t nDuration_ms)
  * @param eColor: candle color
  * @param nDuration_ms: run time duration
  */
-void  Eff_Candle_1(RGB_colors_e eColor, uint32_t nDuration_ms)
+void Eff_Candle_1(RGB_colors_e eColor, uint32_t nDuration_ms)
 {
   const uint8_t pole[] =
   {
@@ -226,6 +236,33 @@ void  Eff_Candle_1(RGB_colors_e eColor, uint32_t nDuration_ms)
     RGBlib_Show();
     RGBlib_Delay_ms(80);
   }
+}
+
+void Eff_Candle_2(RGB_colors_e eColor, uint32_t nDuration_ms)
+{
+  //  Flicker, based on our initial RGB values
+  for(uint8_t i = 0; i < g_nLeds; i++)
+  {
+    if (RGBlib_Rand(1, 2))
+    {
+      int r = RGBlib_GetR(eColor) - RGBlib_Rand(1, 40);
+      int g = RGBlib_GetG(eColor) - RGBlib_Rand(1, 30);
+      int b = RGBlib_GetB(eColor) - RGBlib_Rand(1 ,10);
+
+      // remove negative values
+      g = MAX(g, 0);
+      r = MAX(r, 0);
+      b = MAX(b, 0);
+
+      RGBlib_SetLED(i, RGBlib_GetColorFromRGB(r, g, b));
+    }
+  }
+
+  RGBlib_Show();
+
+  //  Adjust the delay here, if you'd like.  Right now, it randomizes the
+  //  color switch delay to give a sense of realism
+  RGBlib_Delay_ms(RGBlib_Rand(50, 100));
 }
 
 void Eff_Test()
