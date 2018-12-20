@@ -10,7 +10,7 @@
 #include "ad_driver.h"
 #include "timer.h"
 
-#define LEDS 20
+#define LEDS 10
 #define BUFF_SIZE (LEDS * 3)
 
 RGB_colors_e colors[] = { c_red, c_green, c_blue, c_white_dark, c_violet, c_yellow };  // pouzita paleta barev

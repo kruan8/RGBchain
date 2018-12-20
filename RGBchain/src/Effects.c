@@ -6,17 +6,30 @@
 
 uint32_t g_nLeds;
 
-void Eff_EffectsLoop()
+void Eff_EffectLoop()
 {
   g_nLeds = RGBlib_GetLedsCount();
   RGBlib_Clear();
 
-  while (1)
+  if (!RGBlib_IsDark())
   {
-    Eff_ColorWithFade(RGBlib_GetRandomColor(), 10000);
-//    Eff_RandomColorSequentialFade(10000);
-
+    RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
+    RGBlib_Delay_ms(1000);
+    return;
   }
+  else
+  {
+    RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+  }
+
+//  while (1)
+//  {
+////    Eff_Candle_1(c_yellow, EFF_DURATION_5MIN);
+////    Eff_Candle_2(c_orange, EFF_DURATION_5MIN);
+////    Eff_SequentialColorFade(EFF_DURATION_1MIN);
+//    Eff_Rainbow(EFF_DURATION_1MIN);
+//
+//  }
 
   uint32_t rnd = RGBlib_Rand(1, 5);
   switch (rnd)
@@ -24,7 +37,7 @@ void Eff_EffectsLoop()
     case  1: Eff_ColorWithFade(RGBlib_GetRandomColor(), EFF_DURATION_5MIN); break;
     case  2: Eff_SequentialColorFade(EFF_DURATION_3MIN); break;
     case  3: Eff_Stars(RGBlib_GetRandomColor(), EFF_DURATION_1MIN); break;
-    case  4: Eff_Candle_1(c_yellow, EFF_DURATION_5MIN); break;
+    case  4: Eff_Candle_2(c_yellow, EFF_DURATION_5MIN); break;
     case  5: Eff_Rainbow(EFF_DURATION_1MIN);
 
     default: break;
@@ -69,12 +82,15 @@ void Eff_SequentialColorFade(uint32_t nDuration_ms)
       nPos %= g_nLeds;
     }
 
+    RGB_colors_e eColor = RGBlib_GetNextColor();
     for (uint8_t b = 0; b < RGBlib_GetBrightnessMax() - 1; b++)
     {
-      RGBlib_SetLEDWithBrightnessGamma(nPos, RGBlib_GetNextColor(), b);
+      RGBlib_SetLEDWithBrightnessGamma(nPos, eColor, b);
       RGBlib_Show();
       RGBlib_Delay_ms(1000 / RGBlib_GetBrightnessMax());
     }
+
+    RGBlib_Delay_ms(500);
   }
 
   RGBlib_Delay_ms(nDuration_ms);
@@ -101,7 +117,7 @@ void Eff_Rainbow(uint32_t nDuration_ms)
     }
 
     RGBlib_Show();
-    RGBlib_Delay_ms(10);
+    RGBlib_Delay_ms(100);
   }
 
 }
@@ -227,7 +243,7 @@ void Eff_Candle_1(RGB_colors_e eColor, uint32_t nDuration_ms)
         nBrightness = 255;
       }
 
-      RGBlib_SetLEDWithBrightnessGamma(0, eColor, nBrightness);
+      RGBlib_SetLEDWithBrightness(i, eColor, nBrightness);
 //      RGBlib_SetLEDWithBrightness(i, eColor, nBrightness);
       arrLedIndex[i]++;
       arrLedIndex[i] %= nSize;
@@ -267,6 +283,8 @@ void Eff_Candle_2(RGB_colors_e eColor, uint32_t nDuration_ms)
 
 void Eff_Test()
 {
+  RGBlib_Delay_ms(300);
+
 	RGBlib_SetColorAll(c_red, 1000);
 	RGBlib_SetColorAll(c_green, 1000);
 	RGBlib_SetColorAll(c_blue, 1000);

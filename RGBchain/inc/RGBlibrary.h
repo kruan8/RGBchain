@@ -22,7 +22,7 @@ typedef enum
   c_red        = 0xFF0000,
   c_green      = 0x00FF00,
   c_blue       = 0x0000FF,
-  c_yellow     = 0x707000,
+  c_yellow     = 0xFFE000,
   c_white      = 0xFFFFFF,
   c_white_dark = 0x505050,
   c_violet     = 0x6400FF,

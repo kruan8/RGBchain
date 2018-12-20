@@ -37,7 +37,7 @@ int main(void)
 
 	while (1)
 	{
-	  Eff_EffectsLoop();
+	  Eff_EffectLoop();
 	}
 }
 
