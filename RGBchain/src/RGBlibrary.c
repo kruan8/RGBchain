@@ -323,7 +323,7 @@ bool RGBlib_IsDark(void)
 
   // rozhodovaci uroven bude 0,5V
   //
-  if (nOpto < 80)
+  if (nOpto < 20)
   {
     return true;
   }

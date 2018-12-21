@@ -59,11 +59,11 @@ void Eff_ColorWithFade(RGB_colors_e eColor, uint32_t nDuration_ms)
   for (uint8_t nBrightness = 0; nBrightness <= RGBlib_GetBrightnessMax(); nBrightness++)
   {
     RGBlib_SetBrightness(nBrightness);
-    RGBlib_Delay_ms(110);
+    RGBlib_Delay_ms(130);
   }
 
   RGBlib_Delay_ms(nDuration_ms);
-  RGBlib_FadeOut(1300);
+  RGBlib_FadeOut(1200);
 }
 
 /**
@@ -87,7 +87,7 @@ void Eff_SequentialColorFade(uint32_t nDuration_ms)
     {
       RGBlib_SetLEDWithBrightnessGamma(nPos, eColor, b);
       RGBlib_Show();
-      RGBlib_Delay_ms(1000 / RGBlib_GetBrightnessMax());
+      RGBlib_Delay_ms(1300 / RGBlib_GetBrightnessMax());
     }
 
     RGBlib_Delay_ms(500);
@@ -117,7 +117,7 @@ void Eff_Rainbow(uint32_t nDuration_ms)
     }
 
     RGBlib_Show();
-    RGBlib_Delay_ms(100);
+    RGBlib_Delay_ms(120);
   }
 
 }
@@ -146,7 +146,7 @@ void Eff_Stars(RGB_colors_e color, uint32_t nDuration_ms)
       uint8_t nBrightness = arrBrightness[i];
       if (nBrightness == 0)
       {
-        uint8_t nRnd = RGBlib_Rand(1, 70);
+        uint8_t nRnd = RGBlib_Rand(1, 80);
         if (nRnd == 1)
         {
           nBrightness = 1;
@@ -178,7 +178,7 @@ void Eff_Stars(RGB_colors_e color, uint32_t nDuration_ms)
     }
 
     RGBlib_Show();
-    RGBlib_Delay_ms(5);
+    RGBlib_Delay_ms(7);
   }
 }
 
