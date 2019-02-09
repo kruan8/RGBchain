@@ -15,11 +15,16 @@
 
 
 /*
+ * Spotøeba  12LED:
+ *
+ * LED on -  5V / 80mA
+ * LED off (snížená frekvence) - 5V / 20mA
+ *
  * Shift level 3,3/5
  * https://learn.sparkfun.com/tutorials/bi-directional-logic-level-converter-hookup-guide/all
  *
  *
- *
+ * v0.1: odladeno pro brasku
  *
  */
 
