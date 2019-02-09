@@ -9,7 +9,6 @@ uint32_t g_nLeds;
 void Eff_EffectLoop()
 {
   g_nLeds = RGBlib_GetLedsCount();
-  RGBlib_Clear();
 
   if (!RGBlib_IsDark())
   {
@@ -24,21 +23,21 @@ void Eff_EffectLoop()
 
 //  while (1)
 //  {
-////    Eff_Candle_1(c_yellow, EFF_DURATION_5MIN);
-////    Eff_Candle_2(c_orange, EFF_DURATION_5MIN);
+////    Eff_Candle_1(c_orange, EFF_DURATION_5MIN);
+//    Eff_Candle_2(c_orange, EFF_DURATION_5MIN);
 ////    Eff_SequentialColorFade(EFF_DURATION_1MIN);
-//    Eff_Rainbow(EFF_DURATION_1MIN);
+////    Eff_Rainbow(EFF_DURATION_1MIN);
 //
 //  }
 
   uint32_t rnd = RGBlib_Rand(1, 5);
   switch (rnd)
   {
-    case  1: Eff_ColorWithFade(RGBlib_GetRandomColor(), EFF_DURATION_5MIN); break;
+    case  1: Eff_ColorWithFade(RGBlib_GetRandomColor(), EFF_DURATION_3MIN); break;
     case  2: Eff_SequentialColorFade(EFF_DURATION_3MIN); break;
     case  3: Eff_Stars(RGBlib_GetRandomColor(), EFF_DURATION_1MIN); break;
-    case  4: Eff_Candle_2(c_yellow, EFF_DURATION_5MIN); break;
-    case  5: Eff_Rainbow(EFF_DURATION_1MIN);
+    case  4: Eff_Candle_2(c_orange, EFF_DURATION_5MIN); break;
+    case  5: Eff_Rainbow(EFF_DURATION_3MIN); break;
 
     default: break;
   }
@@ -72,6 +71,9 @@ void Eff_ColorWithFade(RGB_colors_e eColor, uint32_t nDuration_ms)
  */
 void Eff_SequentialColorFade(uint32_t nDuration_ms)
 {
+  static const RGB_colors_e arrColors[] = { c_red, c_white, c_green, c_orange, c_blue, c_violet, c_yellow, c_tyrkis };
+  uint8_t nColorPos = 0;
+
   for (uint8_t i = 0; i < g_nLeds; i++)
   {
     // search black (free) position
@@ -82,15 +84,20 @@ void Eff_SequentialColorFade(uint32_t nDuration_ms)
       nPos %= g_nLeds;
     }
 
-    RGB_colors_e eColor = RGBlib_GetNextColor();
     for (uint8_t b = 0; b < RGBlib_GetBrightnessMax() - 1; b++)
     {
-      RGBlib_SetLEDWithBrightnessGamma(nPos, eColor, b);
+      RGBlib_SetLEDWithBrightnessGamma(nPos, arrColors[nColorPos], b);
       RGBlib_Show();
       RGBlib_Delay_ms(1000 / RGBlib_GetBrightnessMax());
     }
 
     RGBlib_Delay_ms(500);
+    nColorPos++;
+    if (nColorPos >= (sizeof(arrColors) / sizeof(RGB_colors_e)))
+    {
+      nColorPos = 0;
+    }
+
   }
 
   RGBlib_Delay_ms(nDuration_ms);
@@ -117,7 +124,7 @@ void Eff_Rainbow(uint32_t nDuration_ms)
     }
 
     RGBlib_Show();
-    RGBlib_Delay_ms(100);
+    RGBlib_Delay_ms(150);
   }
 
 }
@@ -261,9 +268,9 @@ void Eff_Candle_2(RGB_colors_e eColor, uint32_t nDuration_ms)
   {
     if (RGBlib_Rand(1, 2))
     {
-      int r = RGBlib_GetR(eColor) - RGBlib_Rand(1, 40);
-      int g = RGBlib_GetG(eColor) - RGBlib_Rand(1, 30);
-      int b = RGBlib_GetB(eColor) - RGBlib_Rand(1 ,10);
+      int r = RGBlib_GetR(eColor) - RGBlib_Rand(1, 80);
+      int g = RGBlib_GetG(eColor) - RGBlib_Rand(1, 55);
+      int b = RGBlib_GetB(eColor) - RGBlib_Rand(1 ,22);
 
       // remove negative values
       g = MAX(g, 0);
